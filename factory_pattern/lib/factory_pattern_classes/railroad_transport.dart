@@ -12,12 +12,6 @@ class RailroadTransport extends Transport {
     this.trackArrangement = 'with ballast',
   });
 
-  // RailroadTransport(String deliveryOrgTitle, String loadCapacity,
-  //                   String maxCargoDimension, this.trackSize, this.trackArrangement)
-  //                   : super( deliveryOrgTitle: deliveryOrgTitle = 'Railroad delivery company',
-  //                           loadCapacity: loadCapacity = 'railroad transport capacity',
-  //                           maxCargoDimension: maxCargoDimension,);
-
   void changeTrackArrangement() {
     trackArrangement = (trackArrangement == 'with ballast')
         ? 'without ballast'

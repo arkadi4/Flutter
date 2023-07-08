@@ -1,7 +1,5 @@
 import 'package:factory_pattern/factory_pattern_classes/transport.dart';
 import 'package:flutter/material.dart';
-import 'package:factory_pattern/factory_pattern_classes/water_transport.dart';
-import 'dart:developer';
 
 void main() {
   runApp(const MaterialApp(
@@ -17,22 +15,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _counter = 0;
-  bool _isButtonDisabled = false;
 
-  @override
-  void initState() {
-    _isButtonDisabled = false;
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _isButtonDisabled = (_isButtonDisabled) ? false : true;
-      _counter++;
-    });
-  }
-
-  Transport typeOfTransport = Transport();
+  var typeOfTransport;
+  bool isChangeWaterTypeButtonEnabled = false;
+  bool isChangeRailroadTypeButtonEnabled = false;
+  bool isChangeAirTypeFirstButtonEnabled = false;
+  bool isChangeAirTypeSecondButtonEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,26 +32,63 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.all(10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Welcome, select the country you want your cargo '
-                    'to be shipped: '),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      typeOfTransport = Transport.factory(TypesOfTransport.railroadTransportType);
-                    });
-                  },
-                  child: const Text('Russia'),
+                const Text('Welcome, choose the type of transport you '
+                    'want to create '),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          typeOfTransport = Transport.factory(TypesOfTransport.railroadTransportType);
+                          isChangeWaterTypeButtonEnabled = false;
+                          isChangeRailroadTypeButtonEnabled = true;
+                          isChangeAirTypeFirstButtonEnabled = false;
+                          isChangeAirTypeSecondButtonEnabled = false;
+                        });
+                      },
+                      child: const Text('Railroad'),
+                    ),
+                    ElevatedButton(
+                      onPressed:  (isChangeRailroadTypeButtonEnabled)
+                      ? () {
+                        setState(() {
+                          typeOfTransport.changeTrackArrangement();
+                        });
+                      }
+                      : null,
+                      child: Text('Change Railroad transport\n track arrangement'),
+                    ),
+                  ],
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      typeOfTransport = WaterTransport();
-                      // typeOfTransport.getWaterTransportType();
-                    });
-                  },
-                  child: const Text('USA'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          typeOfTransport = Transport.factory(TypesOfTransport.waterTransportType);
+                          isChangeWaterTypeButtonEnabled = true;
+                          isChangeRailroadTypeButtonEnabled = false;
+                          isChangeAirTypeFirstButtonEnabled = false;
+                          isChangeAirTypeSecondButtonEnabled = false;
+                        });
+                      },
+                      child: const Text('Water'),
+                    ),
+                    ElevatedButton(
+                      onPressed:  (isChangeWaterTypeButtonEnabled)
+                      ? () {
+                        setState(() {
+                          typeOfTransport.changeWaterTransportType();
+                        });
+                      }
+                      : null,
+                      child: Text('Change Water transport type '),
+                    ),
+                  ],
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -71,47 +96,59 @@ class _HomeState extends State<Home> {
                       typeOfTransport = Transport.factory(TypesOfTransport.automobileTransportType);
                     });
                   },
-                  child: const Text('Belarus'),
+                  child: const Text('Automobile'),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      typeOfTransport = Transport.factory(TypesOfTransport.airTransportType);
-                    });
-                  },
-                  child: const Text('Germany'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          typeOfTransport = Transport.factory(TypesOfTransport.airTransportType);
+                          isChangeWaterTypeButtonEnabled = false;
+                          isChangeRailroadTypeButtonEnabled = false;
+                          isChangeAirTypeFirstButtonEnabled = true;
+                          isChangeAirTypeSecondButtonEnabled = true;
+                        });
+                      },
+                      child: const Text('Air'),
+                    ),
+                    Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed:  (isChangeAirTypeFirstButtonEnabled)
+                              ? () {
+                            setState(() {
+                              typeOfTransport.changeAirTransportTypeByRange();
+                            });
+                          }
+                              : null,
+                          child: Text('Change Air transport type\n by range of flight'),
+                        ),
+                        ElevatedButton(
+                          onPressed:  (isChangeAirTypeSecondButtonEnabled)
+                              ? () {
+                            setState(() {
+                              typeOfTransport.changeAirTransportTypeByPurpose();
+                            });
+                          }
+                              : null,
+                          child: Text('Change Air transport type\n (passenger or cargo)'),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20.0,),
                 Text(
                   // currentIngredients,
-                  'Your Cargo will be shipped by:\n ${typeOfTransport.toString()}',
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'You have pushed the button this many times:',
-                    ),
-                    Text(
-                      '$_counter',
-                    ),
-                    _buildCounterButton(),
-                  ],
+                  'Your created :\n ${  typeOfTransport.toString()}',
                 ),
               ],
             ),
           ),
         ],
       ),
-    );
-
-  }
-  Widget _buildCounterButton() {
-    return ElevatedButton(
-      child: Text(
-          _isButtonDisabled ? "Hold on..." : "Increment"
-      ),
-      onPressed: _isButtonDisabled ? null : _incrementCounter,
     );
   }
 }

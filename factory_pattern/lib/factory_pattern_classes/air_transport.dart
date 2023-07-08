@@ -1,25 +1,34 @@
 import 'package:factory_pattern/factory_pattern_classes/transport.dart';
 
-List airTransportTypeList =['inside city', 'between cities', 'between countries'];
+
 
 class AirTransport extends Transport {
-  late String airTransportType;
+  String airTransportTypeByRange;
+  String airTransportTypeByPurpose;
+  List airTransportTypeByRangeList =['inside city', 'between cities', 'between countries'];
 
   AirTransport({
     super.deliveryOrgTitle = 'Air delivery company',
     super.loadCapacity = 'air transport capacity',
     super.maxCargoDimension = 'air transport max cargo dimension',
-    this.airTransportType = 'inside city',
+    this.airTransportTypeByRange = 'inside city',
+    this.airTransportTypeByPurpose = 'passenger'
   });
 
-  void changeAirTransportType () {
-    if (airTransportType == airTransportTypeList[0]) {
-      airTransportType = airTransportTypeList[1];
-    } else if (airTransportType == airTransportTypeList[1]) {
-      airTransportType = airTransportTypeList[2];
-    } else if (airTransportType == airTransportTypeList[2]) {
-      airTransportType = airTransportTypeList[0];
+  void changeAirTransportTypeByRange () {
+    if (airTransportTypeByRange == airTransportTypeByRangeList[0]) {
+      airTransportTypeByRange = airTransportTypeByRangeList[1];
+    } else if (airTransportTypeByRange == airTransportTypeByRangeList[1]) {
+      airTransportTypeByRange = airTransportTypeByRangeList[2];
+    } else if (airTransportTypeByRange == airTransportTypeByRangeList[2]) {
+      airTransportTypeByRange = airTransportTypeByRangeList[0];
     }
+  }
+
+  void changeAirTransportTypeByPurpose() {
+    airTransportTypeByPurpose = (airTransportTypeByPurpose == 'passenger')
+                              ? 'cargo'
+                              : 'passenger';
   }
 
   @override
@@ -27,6 +36,7 @@ class AirTransport extends Transport {
     return 'Air transport with load capacity :\n           $loadCapacity ,\n'
         'maximum cargo dimension :\n           $maxCargoDimension ,\n'
         'from the organization :\n           $deliveryOrgTitle ,\n'
-        'with air transport type by\n           ${airTransportType}';
+        'with air transport type by range:\n           ${airTransportTypeByRange},\n'
+        'with air transport type by cargo:\n           ${airTransportTypeByPurpose},\n';
   }
 }

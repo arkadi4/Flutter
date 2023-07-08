@@ -17,8 +17,8 @@ class WaterTransport extends Transport {
 
   void changeWaterTransportType() {
     waterTransportType = (waterTransportType == 'river')
-                          ? WaterTransportType.sea.toString()
-                          : WaterTransportType.river.toString();
+                          ? 'sea' // ? WaterTransportType.sea.toString()
+                          : 'river'; // : WaterTransportType.river.toString();
   }
 
   @override
